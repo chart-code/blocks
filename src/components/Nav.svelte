@@ -15,7 +15,7 @@
     max-width: 960px;
   }
 
-  @media screen and (min-width: 960px) {
+  @media screen and (min-width: 970px) {
     ul{
       left: 1em;
       position: relative;
