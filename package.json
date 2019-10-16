@@ -1,0 +1,19 @@
+{
+  "name": "bl.ocks",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:chart-code/bl.ocks.git",
+  "license": "MIT",
+  "dependencies": {
+    "await-exec": "^0.1.2",
+    "compression": "^1.7.4",
+    "d3": "^5.12.0",
+    "polka": "^0.5.2",
+    "r2": "^2.0.1",
+    "sirv": "^0.4.2",
+    "underscore": "^1.9.1"
+  },
+  "scripts": {
+    "dev": "node index.js --dev=true"
+  }
+}
