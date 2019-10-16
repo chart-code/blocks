@@ -2,26 +2,35 @@ var fetch = require('node-fetch')
 var _ = require('underscore')
 var fs = require('fs')
 var d3 = require('d3')
+var io = require('indian-ocean')
 
 var e = _.escape
 
-var Authorization = 'token ' + JSON.parse(fs.readFileSync('~/.gistup.json')).token
-console.log(Authorization)
+var token = io.readDataSync(process.env.HOME + '/.gistup.json').token
+var Authorization = 'token ' + token
+
+var hljs = require('highlight.js')
+var marked = require('marked')
+marked.setOptions({
+  highlight: (code, lang) => hljs.highlight(lang, code).value,
+  smartypants: true
+})
 
 function generateHTML(user, id, gist){
   var title = e(user) + `’s block ` + id
 
-
   var files = d3.entries(gist.files)
     .filter(d => !d.value.trucated)
-    .filter(d => d.key != 'README.md')
     .filter(d => d.value.size < 2000)
-    // .filter(d => d.value.type.include('image'))
 
   files.forEach(d => d.code = 'tktk code')
 
-  console.log(gist)
-  // var readme = gist.files['README.md']
+  var readme = files.find(d => d.key == 'README.md')
+  files = files.filter(d => d.key != 'README.md')
+
+  if (!gist.files) console.log('ERROR', gist)
+
+  console.log(files)
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
@@ -31,6 +40,8 @@ function generateHTML(user, id, gist){
   <div class='username'>${title}</div>
 
   <iframe width=960 height=500 src='/${user}/raw/${id}/index.html'></iframe>
+
+  ${readme ? marked(readme.value.content) : ''}
 
   ${files.map(file => `
     <h2>${file.key}</h2>
