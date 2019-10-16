@@ -5,6 +5,9 @@ var d3 = require('d3')
 
 var e = _.escape
 
+var Authorization = 'token ' + JSON.parse(fs.readFileSync('~/.gistup.json')).token
+console.log(Authorization)
+
 function generateHTML(user, id, gist){
   var title = e(user) + `’s block ` + id
 
@@ -43,7 +46,7 @@ function generateHTML(user, id, gist){
 module.exports = async function get(req, res, next) {
   var {user, id} = req.params
   var url = `https://api.github.com/gists/${id}`
-  var gist = await (await fetch(url)).json()
+  var gist = await (await fetch(url, {headers: {Authorization}})).json()
 
   var html = generateHTML(user, id, gist)
 
@@ -54,3 +57,6 @@ module.exports = async function get(req, res, next) {
 
 if (require.main === module){
 }
+
+// "Authorization": "token " + token,
+// "User-Agent": "mbostock/gistup",
