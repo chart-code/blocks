@@ -9,7 +9,7 @@ var raw = require('./src/raw')
 
 var exec = require('await-exec')
 var argv = require('minimist')(process.argv.slice(2))
-var PORT = argv.port || 3000
+var PORT = argv.port || 3002
 var DEV = argv.dev
 
 async function init(){
@@ -41,7 +41,7 @@ async function init(){
       if (DEV) raw = requireUncached('./src/raw')
       raw(req, res)
     })
-    .listen(3000, err => {
+    .listen(PORT, err => {
       if (err) throw err
       console.log(`http://localhost:${PORT}`)
       // exec(`open http://localhost:${PORT}`)
