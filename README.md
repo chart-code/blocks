@@ -10,6 +10,6 @@ https://gist.githubusercontent.com/1wheel/77c660a764ab55a496c4e37623be9069/raw/i
 # todo
 
 - cache header
-- cache in node
+- x cache in node
 - lazy load
 - load text clientside
