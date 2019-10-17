@@ -13,10 +13,10 @@
     "marked": "^0.7.0",
     "polka": "^0.5.2",
     "r2": "^2.0.1",
-    "sirv": "^0.4.2",
     "underscore": "^1.9.1"
   },
   "scripts": {
-    "dev": "node index.js --dev=true"
+    "dev": "node index.js --dev=true",
+    "start": "node index.js"
   }
 }

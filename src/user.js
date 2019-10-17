@@ -1,4 +1,4 @@
-var fetch = require('node-fetch')
+var fetchCache = require('./../lib/fetch-cache')
 var _ = require('underscore')
 var cachedGists = require('./gists-static.js')
 
@@ -10,7 +10,7 @@ async function dlGists(user){
   var page = 0
   do {
     var url = `https://api.github.com/users/${user}/gists?page=${page}&per_page=100`
-    var responce = await (await fetch(url)).json()
+    var responce = await fetchCache(url, 'json')
     responces.push(responce)
     page++
   } while (responce.length == 100 && page < 11)
@@ -31,7 +31,7 @@ function generateHTML(user, gists){
   <div class='username'>${titleURL}</div>
 
   ${gists.filter(d => d && d.id).map(gist => `
-    <a class ="block-thumb" target="_blank" 
+    <a class="block-thumb" target="x_blank" 
       style="background-image:url('https://gist.githubusercontent.com/${user}/${gist.id}/raw/thumbnail.png')"
       href="/${user}/${gist.id}">
       <p>${e(gist.description || gist.id.substr(0, 20))}</p>

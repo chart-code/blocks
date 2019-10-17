@@ -1,17 +1,13 @@
-var fetch = require('node-fetch')
+var fetchCache = require('./../lib/fetch-cache')
 var _ = require('underscore')
 var d3 = require('d3')
-var io = require('indian-ocean')
 
 var e = _.escape
-
-var token = io.readDataSync(process.env.HOME + '/.gistup.json').token
-var Authorization = 'token ' + token
 
 var hljs = require('highlight.js')
 var marked = require('marked')
 marked.setOptions({
-  highlight: (code, lang) => hljs.highlight(lang, code).value,
+  highlight: (code, lang) => hljs.highlight(lang || 'text', code).value,
   smartypants: true
 })
 
@@ -66,7 +62,7 @@ function generateHTML(user, id, gist){
 module.exports = async function get(req, res, next) {
   var {user, id} = req.params
   var url = `https://api.github.com/gists/${id}`
-  var gist = await (await fetch(url, {headers: {Authorization}})).json()
+  var gist = await fetchCache(url, 'json')
 
   var html = generateHTML(user, id, gist)
 
