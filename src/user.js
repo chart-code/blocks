@@ -1,6 +1,5 @@
 var fetch = require('node-fetch')
 var _ = require('underscore')
-var fs = require('fs')
 var cachedGists = require('./gists-static.js')
 
 var e = _.escape

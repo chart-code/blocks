@@ -1,10 +1,3 @@
-var fetch = require('node-fetch')
-var _ = require('underscore')
-var fs = require('fs')
-var gists = require('./gists-static.js')
-
-var e = _.escape
-
 function generateHTML(){
   var people = '1wheel armollica denisemauldin blacki dwtkns enjalot gka jasondavies kennelliott mbostock monfera robinhouston tophtucker veltman emeeks zanarmstrong nbremer'
     .split(' ').sort()

@@ -1,6 +1,5 @@
 var fetch = require('node-fetch')
 var _ = require('underscore')
-var fs = require('fs')
 var d3 = require('d3')
 var io = require('indian-ocean')
 
