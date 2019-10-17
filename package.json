@@ -17,6 +17,7 @@
   },
   "scripts": {
     "dev": "node index.js --dev=true",
-    "start": "node index.js"
+    "start": "node index.js",
+    "pub": "./deploy.sh"
   }
 }
