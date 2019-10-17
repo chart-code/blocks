@@ -17,7 +17,15 @@ marked.setOptions({
 })
 
 function generateHTML(user, id, gist){
-  var title = e(user) + `’s block ` + id
+  // if (!gist.id) return console.log(gist.id)  
+  if (!gist || !gist.files) return console.log('missing files')
+    
+  var description = e(gist.description || id.substr(0, 20))
+  var title = `${description} by ${e(user)}`
+  var titleURL = `
+    <a href='/'>block</a> by 
+    <a href='/${e(user)}'>${e(user)}</a> 
+    <a href='http://gist.github.com/${id}'>${id}</a>`
 
   var files = d3.entries(gist.files)
     .filter(d => !d.value.trucated)
@@ -30,21 +38,23 @@ function generateHTML(user, id, gist){
 
   if (!gist.files) console.log('ERROR', gist)
 
-  console.log(files)
-
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel='stylesheet' href='/style.css'>
+  <link rel='stylesheet' href='/static/style.css'>
   <title>${title}</title>
-  <div class='username'>${title}</div>
+  <div class='username'>${titleURL}</div>
 
-  <iframe width=960 height=500 src='/${user}/raw/${id}/index.html'></iframe>
+  <h1>${description}</h1>
+
+  ${!gist.files['index.html'] ? '' : 
+    `<iframe width=960 height=500 src='/${user}/raw/${id}/index.html'></iframe>`
+  }
 
   ${readme ? marked(readme.value.content) : ''}
 
   ${files.map(file => `
-    <h2>${file.key}</h2>
+    <h3>${file.key}</h3>
     <pre><code>${file.value.content}</code></pre>
   `).join('')}
 
@@ -68,6 +78,3 @@ module.exports = async function get(req, res, next) {
 
 if (require.main === module){
 }
-
-// "Authorization": "token " + token,
-// "User-Agent": "mbostock/gistup",

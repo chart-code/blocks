@@ -1,16 +1,18 @@
 var _ = require('underscore')
 var polka = require('polka')
-var sirv = require('sirv')
 
 var about = require('./src/about')
 var user = require('./src/user')
 var block = require('./src/block')
 var raw = require('./src/raw')
+var static = require('./lib/static')
 
 var exec = require('await-exec')
 var argv = require('minimist')(process.argv.slice(2))
 var PORT = argv.port || 3002
 var DEV = argv.dev
+
+
 
 async function init(){
   try{
@@ -22,9 +24,10 @@ async function init(){
   await sleep(200)
 
   polka()
-    .use(
-      sirv('static')
-    )
+    .get('/static/:file', (req, res) => {
+      if (DEV) static = requireUncached('./lib/static')
+      static(req, res)
+    })
     .get('/', (req, res) => {
       if (DEV) about = requireUncached('./src/about')
       about(req, res)
