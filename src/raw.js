@@ -7,7 +7,6 @@ module.exports = async function get(req, res, next) {
 
   var url =`https://gist.githubusercontent.com/${user}/${id}/raw/${file}`
 
-  // console.time(file)
   try{
     var text = await fetchCache(url, 'text')
     res.writeHead('200', {'Content-Type': mime.lookup(file)})
@@ -17,8 +16,6 @@ module.exports = async function get(req, res, next) {
     res.writeHead('404')
     res.end('')
   }
-
-  // console.timeEnd(file)
 }
 
 

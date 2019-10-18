@@ -33,28 +33,40 @@ function generateHTML(user, id, gist){
 
   if (!gist.files) console.log('ERROR', gist)
 
+  var iframeURL = `/${user}/raw/${id}/index.html`
+  var rootURL = iframeURL.replace('index.html', '')
+
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' href='/static/style.css'>
+  <script src='/static/d3_.js'></script>
+
   <title>${title}</title>
   <div class='username'>${titleURL}</div>
 
   <h1>${description}</h1>
 
   ${!gist.files['index.html'] ? '' : 
-    `<iframe width=960 height=500 src='/${user}/raw/${id}/index.html'></iframe>`
+    `<iframe width=960 height=500 src='${iframeURL}'></iframe> <a style='float: right;' href=${iframeURL}>raw</a>`
   }
 
   ${readme ? marked(readme.value.content) : ''}
 
-  ${files.map(file => `
-    <h3>${file.key}</h3>
-    <pre><code>${file.value.content}</code></pre>
-  `).join('')}
+  <div id='files'></div>
 
   <script>
+    var files = ${JSON.stringify(files.map(d => d.key))}
 
+    d3.select('#files').appendMany('div', files)
+      .append('h3').text(d => d)
+      .parent()
+      .append('pre')
+      .each(async function(d){
+        var str = await (await fetch('${rootURL}' + d)).text()
+
+        d3.select(this).html(_.escape(str))
+      })
   </script>
   `
 }

@@ -10,11 +10,12 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   font-weight: 500;
   line-height: 1.2;
   color: #000;
+  font-size: 2em;
 }
 
 h1 {
@@ -44,7 +45,14 @@ code {
   }
 }
 
-
+#people a{
+  text-decoration: none;
+  padding-right: 3px;
+}
+#people a:hover{
+  text-decoration: underline;
+  padding-right: 3px;
+}
 
 .username{
   margin-bottom: 20px;

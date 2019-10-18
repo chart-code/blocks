@@ -7,7 +7,7 @@ var e = _.escape
 async function dlGists(user){
   var responces = []
   var responce = null
-  var page = 0
+  var page = 1
   do {
     var url = `https://api.github.com/users/${user}/gists?page=${page}&per_page=100`
     var responce = await fetchCache(url, 'json')
