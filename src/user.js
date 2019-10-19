@@ -1,10 +1,12 @@
 var fetchCache = require('./../lib/fetch-cache')
-var _ = require('underscore')
 var cachedGists = require('./gists-static.js')
+var io = require('indian-ocean')
+var _ = require('underscore')
+var d3 = require('d3')
 
 var e = _.escape
 
-async function dlGists(user){
+async function dlGists(user, maxPages=11){
   var responces = []
   var responce = null
   var page = 1
@@ -13,10 +15,37 @@ async function dlGists(user){
     var responce = await fetchCache(url, 'json')
     responces.push(responce)
     page++
-  } while (responce.length == 100 && page < 11)
+  } while (responce.length == 100 && page < maxPages)
 
   return _.flatten(responces)
     .map(({id, description}) => ({id, description}))
+}
+
+async function getGists(user){
+  var path = __dirname + '/../usercache/' + user + '.csv'
+
+  var cachedData = []
+  var maxPages = 0
+  try {
+    cachedData = io.readDataSync(path)
+  } catch (e) {
+    maxPages = 11
+  }
+
+  // This miss gists if someone makes a 100+ gists between caches
+  // Could periodically purge or just live with it
+  var recentGists = await dlGists(user, maxPages)
+
+  var id2description = {}
+  cachedData.concat(recentGists)
+    .forEach(d => id2description[d.id] = d.description)
+
+  var gists = d3.entries(id2description)
+    .map(({key, value}) => ({id: key, description: value}))
+
+  io.writeData(path, gists, d => d)
+
+  return gists
 }
 
 function generateHTML(user, gists){
@@ -25,6 +54,7 @@ function generateHTML(user, gists){
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' href='/static/style.css'>
   <title>${title}</title>
@@ -42,7 +72,7 @@ function generateHTML(user, gists){
 
 module.exports = async function get(req, res, next) {
   var user = req.params.user
-  var gists = await dlGists(req.params.user)
+  var gists = await getGists(req.params.user)
   // var gists = cachedGists.map(({id, description}) => ({id, description}))
   var html = generateHTML(user, gists)
 

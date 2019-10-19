@@ -38,6 +38,7 @@ function generateHTML(user, id, gist){
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' href='/static/style.css'>
   <script src='/static/d3_.js'></script>
