@@ -24,26 +24,27 @@ async function dlGists(user, maxPages=11){
 async function getGists(user){
   var path = __dirname + '/../usercache/' + user + '.csv'
 
-  var cachedData = []
+  var cachedGists = []
   var maxPages = 0
   try {
-    cachedData = io.readDataSync(path)
+    cachedGists = io.readDataSync(path)
   } catch (e) {
     maxPages = 11
   }
 
-  // This miss gists if someone makes a 100+ gists between caches
-  // Could periodically purge or just live with it
-  var recentGists = await dlGists(user, maxPages)
+  // misses gists if someone makes a 100+ gists between caches
+  var gists = await dlGists(user, maxPages)
 
-  var id2description = {}
-  cachedData.concat(recentGists)
-    .forEach(d => id2description[d.id] = d.description)
+  var isId = {}
+  gists.forEach(d => isId[d.id] = true)
 
-  var gists = d3.entries(id2description)
-    .map(({key, value}) => ({id: key, description: value}))
+  cachedGists.forEach(d => isId[d.id] ? '' : gists.push(d))
 
-  io.writeData(path, gists, d => d)
+  // download & save full list of gists after making request 
+  !(async function(){
+    var currentGists = await dlGists(user)
+    io.writeData(path, currentGists, d => d)
+  })()
 
   return gists
 }

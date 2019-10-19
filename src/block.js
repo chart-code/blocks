@@ -49,7 +49,7 @@ function generateHTML(user, id, gist){
   <h1>${description}</h1>
 
   ${!gist.files['index.html'] ? '' : 
-    `<iframe width=960 height=500 src='${iframeURL}'></iframe> <a style='float: right;' href=${iframeURL}>raw</a>`
+    `<iframe width=960 height=500 scrolling='no' src='${iframeURL}'></iframe> <a style='float: right;' href=${iframeURL}>raw</a>`
   }
 
   ${readme ? marked(readme.value.content) : ''}
