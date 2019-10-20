@@ -1,5 +1,4 @@
 var fetchCache = require('./../lib/fetch-cache')
-var cachedGists = require('./gists-static.js')
 var io = require('indian-ocean')
 var _ = require('underscore')
 var d3 = require('d3')
@@ -74,7 +73,6 @@ function generateHTML(user, gists){
 module.exports = async function get(req, res, next) {
   var user = req.params.user
   var gists = await getGists(req.params.user)
-  // var gists = cachedGists.map(({id, description}) => ({id, description}))
   var html = generateHTML(user, gists)
 
   res.writeHead(200, {'Content-Type': 'text/html'})

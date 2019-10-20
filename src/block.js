@@ -22,14 +22,15 @@ function generateHTML(user, id, gist){
     <a href='/${e(user)}'>${e(user)}</a> 
     <a href='http://gist.github.com/${id}'>${id}</a>`
 
+  // console.log(d3.entries(gist.files).map(d => d.key))
+
   var files = d3.entries(gist.files)
     .filter(d => !d.value.trucated)
-    .filter(d => d.value.size < 2000)
+    .filter(d => d.value.size < 20000)
+    .filter(d => d.key[0] != '.')
+    .filter(d => d.key != 'README.md')
 
-  files.forEach(d => d.code = 'tktk code')
-
-  var readme = files.find(d => d.key == 'README.md')
-  files = files.filter(d => d.key != 'README.md')
+  files = _.sortBy(files, d => d.key.includes('index.js') || d.key.includes('script.js') ? -1 : 1)
 
   if (!gist.files) console.log('ERROR', gist)
 
@@ -41,33 +42,38 @@ function generateHTML(user, id, gist){
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' href='/static/style.css'>
-  <script src='/static/d3_.js'></script>
 
   <title>${title}</title>
   <div class='username'>${titleURL}</div>
 
   <h1>${description}</h1>
 
-  ${!gist.files['index.html'] ? '' : 
-    `<iframe width=960 height=500 scrolling='no' src='${iframeURL}'></iframe> <a style='float: right;' href=${iframeURL}>raw</a>`
+  ${gist.files['index.html'] ?  
+    `
+    <a style='float: right;' href=${iframeURL}>raw</a>
+    <iframe width=960 height=500 scrolling='no' src='${iframeURL}'></iframe>`
+    : ''
   }
 
-  ${readme ? marked(readme.value.content) : ''}
+  <div id='readme'>
+    ${gist.files['README.md'] && marked(gist.files['README.md'].content)}
+  </div>
 
-  <div id='files'></div>
+  <div id='files'>${files.map(d =>
+    `<div>
+      <h3>${d.key}</h3>
+      <pre><code data-file=${d.key}></code></pre>
+    </div>`
+  ).join('')}</div>
 
   <script>
-    var files = ${JSON.stringify(files.map(d => d.key))}
+    var rootURL = '${rootURL}'
 
-    d3.select('#files').appendMany('div', files)
-      .append('h3').text(d => d)
-      .parent()
-      .append('pre')
-      .each(async function(d){
-        var str = await (await fetch('${rootURL}' + d)).text()
-
-        d3.select(this).html(_.escape(str))
-      })
+    ;[...document.querySelectorAll('#files > div')].forEach(async d => {
+      file = d.querySelectorAll('h3')[0].textContent
+      var text = await (await fetch(rootURL + file)).text()
+      d.querySelectorAll('code')[0].textContent = text
+    })
   </script>
   `
 }
