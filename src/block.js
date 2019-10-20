@@ -53,7 +53,7 @@ function generateHTML(user, id, gist){
 
   ${gist.files['index.html'] ?  
     `
-    <a style='float: right; height: 0px; top: -20px; position: relative;'' href=${iframeURL}>Full Screen</a>
+    <a style='float: right; height: 0px; top: -23px; position: relative;'' href=${iframeURL}>Full Screen</a>
     <iframe width=960 height=500 scrolling='no' src='${iframeURL}'></iframe>`
     : ''
   }
