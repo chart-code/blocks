@@ -45,6 +45,13 @@ code {
   }
 }
 
+@media (min-width: 970px) {
+  body {
+    margin: 0px;
+  }
+}
+
+
 #people a{
   text-decoration: none;
   padding-right: 3px;
