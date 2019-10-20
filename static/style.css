@@ -35,8 +35,6 @@ code {
   font-family: menlo, inconsolata, monospace;
   font-size: calc(1em - 2px);
   color: #000;
-  padding: 0.2em 0.4em;
-  border-radius: 2px;
 }
 
 @media (min-width: 400px) {
@@ -103,4 +101,12 @@ iframe{
 
 #readme{
   max-width: 700px;
+}
+
+
+.hljs{
+  border-left: 1px solid #ccc;
+  padding-left: 1em;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }

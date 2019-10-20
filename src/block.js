@@ -29,6 +29,7 @@ function generateHTML(user, id, gist){
     .filter(d => d.value.size < 20000)
     .filter(d => d.key[0] != '.')
     .filter(d => d.key != 'README.md')
+    .filter(d => !d.key.includes('.png'))
 
   files = _.sortBy(files, d => d.key.includes('index.js') || d.key.includes('script.js') ? -1 : 1)
 
@@ -41,6 +42,8 @@ function generateHTML(user, id, gist){
   <meta charset='utf-8'>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
   <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel="stylesheet" href="/static/github-gist.min.css">
+  <script src="/static/highlight.min.js"></script>
   <link rel='stylesheet' href='/static/style.css'>
 
   <title>${title}</title>
@@ -62,7 +65,7 @@ function generateHTML(user, id, gist){
   <div id='files'>${files.map(d =>
     `<div>
       <h3>${d.key}</h3>
-      <pre><code data-file=${d.key}></code></pre>
+      <pre><code class='lang-${d.value.language || d.key.split('.')[1]}'></code></pre>
     </div>`
   ).join('')}</div>
 
@@ -70,9 +73,12 @@ function generateHTML(user, id, gist){
     var rootURL = '${rootURL}'
 
     ;[...document.querySelectorAll('#files > div')].forEach(async d => {
-      file = d.querySelectorAll('h3')[0].textContent
+      var file = d.querySelectorAll('h3')[0].textContent
       var text = await (await fetch(rootURL + file)).text()
-      d.querySelectorAll('code')[0].textContent = text
+      
+      var codeEl = d.querySelectorAll('code')[0]
+      codeEl.textContent = text
+      hljs.highlightBlock(codeEl)
     })
   </script>
   `
