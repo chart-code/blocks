@@ -1,10 +1,10 @@
 var _ = require('underscore')
 var polka = require('polka')
 
-var about = require('./src/about')
-var user = require('./src/user')
-var block = require('./src/block')
-var raw = require('./src/raw')
+var about = require('./routes/about')
+var user = require('./routes/user')
+var block = require('./routes/block')
+var raw = require('./routes/raw')
 var static = require('./lib/static')
 var fetchCache = require('./lib/fetch-cache')
 
@@ -25,19 +25,19 @@ async function init(){
       res.writeHead(301, {Location: '/'})
     })
     .get('/', (req, res) => {
-      if (DEV) about = requireUncached('./src/about')
+      if (DEV) about = requireUncached('./routes/about')
       about(req, res)
     })
     .get('/:user', (req, res) => {
-      if (DEV) user = requireUncached('./src/user')
+      if (DEV) user = requireUncached('./routes/user')
       user(req, res)
     })
     .get('/:user/:id', (req, res) => {
-      if (DEV) block = requireUncached('./src/block')
+      if (DEV) block = requireUncached('./routes/block')
       block(req, res)
     })
     .get('/:user/raw/:id/:file', (req, res) => {
-      if (DEV) raw = requireUncached('./src/raw')
+      if (DEV) raw = requireUncached('./routes/raw')
       raw(req, res)
     })
     .listen(PORT, err => {
