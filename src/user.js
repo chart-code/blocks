@@ -17,7 +17,7 @@ async function dlGists(user, maxPages=11){
   } while (responce.length == 100 && page < maxPages)
 
   return _.flatten(responces)
-    .map(({id, description}) => ({id, description}))
+    .map(({id, description, public}) => ({id, description, public}))
 }
 
 async function getGists(user){
@@ -62,10 +62,10 @@ function generateHTML(user, gists){
 
   <div id='gist-list'>
   ${gists.filter(d => d && d.id).map(gist => `
-    <a class="block-thumb" target="x_blank" 
+    <a class="block-thumb ${gist.public ? '' : 'block-private'}" target="x_blank" 
       style="background-position: center; background-image:url('https://gist.githubusercontent.com/${user}/${gist.id}/raw/thumbnail.png')"
       href="/${user}/${gist.id}">
-      <p>${e(gist.description || gist.id.substr(0, 20))}</p>
+      <p>${gist.public ? '' : '🔒 '}${e(gist.description || gist.id.substr(0, 20))}</p>
     </a>
   `).join(' ')}
   </div>
@@ -79,13 +79,4 @@ module.exports = async function get(req, res, next) {
 
   res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(html)
-}
-
-
-if (require.main === module){
-  async function init(){
-    // var myGists = await dlGists('1wheel')
-  }
-
-  init()
 }

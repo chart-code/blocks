@@ -6,6 +6,7 @@ var user = require('./src/user')
 var block = require('./src/block')
 var raw = require('./src/raw')
 var static = require('./lib/static')
+var fetchCache = require('./lib/fetch-cache')
 
 var exec = require('await-exec')
 var argv = require('minimist')(process.argv.slice(2))
@@ -27,6 +28,10 @@ async function init(){
     .get('/static/:file', (req, res) => {
       if (DEV) static = requireUncached('./lib/static')
       static(req, res)
+    })
+    .get('/cache-bust', (req, res) => {
+      fetchCache.bust()
+      res.writeHead(301, {Location: '/'})
     })
     .get('/', (req, res) => {
       if (DEV) about = requireUncached('./src/about')

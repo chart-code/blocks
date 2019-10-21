@@ -7,12 +7,14 @@ var e = _.escape
 var hljs = require('highlight.js')
 var marked = require('marked')
 marked.setOptions({
-  highlight: (code, lang) => hljs.highlight(lang || 'text', code).value,
+  highlight: (code, lang) => {
+    var obj = lang ? hljs.highlight(lang, code) : hljs.highlightAuto(code)
+    return obj.value
+  },
   smartypants: true
 })
 
 function generateHTML(user, id, gist){
-  // if (!gist.id) return console.log(gist.id)  
   if (!gist || !gist.files) return console.log('missing files')
     
   var description = e(gist.description || id.substr(0, 20))
@@ -93,8 +95,4 @@ module.exports = async function get(req, res, next) {
 
   res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(html)
-}
-
-
-if (require.main === module){
 }

@@ -96,6 +96,10 @@ a.block-thumb{
   outline: 1px solid #ccc;
 }
 
+a.block-private{
+  /*outline-color: gold;*/
+}
+
 a.block-thumb:hover{
   text-decoration: underline;
 }

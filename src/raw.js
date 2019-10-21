@@ -9,15 +9,14 @@ module.exports = async function get(req, res, next) {
 
   try{
     var text = await fetchCache(url, 'text')
-    res.writeHead('200', {'Content-Type': mime.lookup(file)})
+    res.writeHead('200', {
+      'Content-Type': mime.lookup(file),
+      'Cache-Control': 'public, max-age=' + 1000*60,
+    })
     res.end(text)
   } catch(e){
     console.log('missing', e)
     res.writeHead('404')
     res.end('')
   }
-}
-
-
-if (require.main === module){
 }
