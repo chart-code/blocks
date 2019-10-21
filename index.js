@@ -20,7 +20,7 @@ async function init(){
       if (DEV) static = requireUncached('./lib/static')
       static(req, res)
     })
-    .get('/cache-bust', (req, res) => {
+    .get('/cachebust', (req, res) => {
       fetchCache.bust()
       res.writeHead(301, {Location: '/'})
     })

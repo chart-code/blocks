@@ -43,6 +43,15 @@ function generateHTML(user, id, gist){
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+  <meta property="og:title" content="${description}">
+  <meta property="og:description" content="Block by ${e(user)}">
+  ${
+    gist.files['preview.png'] ? 
+    `<meta property="og:image" content="https://gist.githubusercontent.com/${user}/${id}/raw/preview.png">
+    <meta name="twitter:card" content="summary_large_image">`
+    : ''
+  }
+
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel="stylesheet" href="/static/github-gist.min.css">
   <script src="/static/highlight.min.js"></script>
