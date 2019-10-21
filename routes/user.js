@@ -62,7 +62,7 @@ function generateHTML(user, gists){
 
   <div id='gist-list'>
   ${gists.filter(d => d && d.id).map(gist => `
-    <a class="block-thumb ${gist.public ? '' : 'block-private'}" target="x_blank" 
+    <a class="block-thumb ${gist.public ? '' : 'block-private'}"
       style="background-position: center; background-image:url('https://gist.githubusercontent.com/${user}/${gist.id}/raw/thumbnail.png')"
       href="/${user}/${gist.id}">
       <p>${gist.public ? '' : '🔒 '}${e(gist.description || gist.id.substr(0, 20))}</p>
