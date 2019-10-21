@@ -1,14 +1,7 @@
-https://developer.github.com/v3/gists/#list-a-users-gists
+Open source clone of [bl.ocks.org](https://bl.ocks.org/), hosted at [blocks.roadtolarissa.com](https://blocks.roadtolarissa.com).
 
-https://highlightjs.org/usage/
+# dev
 
-# todo
+`yarn && yarn dev`
 
-- x cache header
-- x cache in node
-- x lazy load
-- x load text client side
-- readme text
-- x change server credentials 
-x mobile user page
-- auto scrape
+If you've installed [gistup](https://github.com/mbostock/gistup), http://localhost:3002/$yourUsername will include your private gists. 

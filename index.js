@@ -14,16 +14,7 @@ var PORT = argv.port || 3002
 var DEV = argv.dev
 
 
-
 async function init(){
-  try{
-    if (!DEV) await exec(`kill $(lsof -t -i:${PORT})`)
-  } catch (e){
-    console.log(e)
-  }
-
-  await sleep(200)
-
   polka()
     .get('/static/:file', (req, res) => {
       if (DEV) static = requireUncached('./lib/static')
@@ -62,9 +53,5 @@ init()
 function requireUncached(module){
   delete require.cache[require.resolve(module)]
   return require(module)
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms))
 }
 
