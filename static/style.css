@@ -69,18 +69,31 @@ code {
   font-size: 18px;
 }
 
+#gist-list{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(115px, 230px));
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
 
+@media (max-width: 700px) {
+  #gist-list{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(115px, 230px));
+  }
+}
+
+@media (max-width: 400px) {
+  #gist-list{
+    display: grid;
+    grid-template-columns: repeat(2, minmax(115px, 230px));
+  }
+}
 
 a.block-thumb{
-  display: inline-block;
-  width: 220px;
   height: 120px;
-  margin: 5px;
-  margin-bottom: 3px;
-  margin-left: 0px;
   text-decoration: none;
   outline: 1px solid #ccc;
-  vertical-align: bottom;
 }
 
 a.block-thumb:hover{
@@ -92,6 +105,9 @@ a.block-thumb:hover{
   position: relative;
   top: -10px;
   left: 5px;
+  text-overflow: ellipsis;
+  width: 95%;
+  overflow: hidden;
 }
 
 

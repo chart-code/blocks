@@ -59,7 +59,7 @@ function generateHTML(user, id, gist){
   }
 
   <div id='readme'>
-    ${gist.files['README.md'] && marked(gist.files['README.md'].content)}
+    ${gist.files['README.md'] ? marked(gist.files['README.md'].content) : ''}
   </div>
 
   <div id='files'>${files.map(d =>

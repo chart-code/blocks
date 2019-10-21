@@ -60,13 +60,15 @@ function generateHTML(user, gists){
   <title>${title}</title>
   <div class='username'>${titleURL}</div>
 
+  <div id='gist-list'>
   ${gists.filter(d => d && d.id).map(gist => `
     <a class="block-thumb" target="x_blank" 
-      style="background-image:url('https://gist.githubusercontent.com/${user}/${gist.id}/raw/thumbnail.png')"
+      style="background-position: center; background-image:url('https://gist.githubusercontent.com/${user}/${gist.id}/raw/thumbnail.png')"
       href="/${user}/${gist.id}">
       <p>${e(gist.description || gist.id.substr(0, 20))}</p>
     </a>
   `).join(' ')}
+  </div>
   `
 }
 

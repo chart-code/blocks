@@ -7,6 +7,8 @@ https://highlightjs.org/usage/
 - cache header
 - x cache in node
 - x lazy load
-- x load text clientside
+- x load text client side
 - readme text
-- 
+- change server credentials 
+x mobile user page
+- auto scrape

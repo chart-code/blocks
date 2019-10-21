@@ -12,7 +12,7 @@ module.exports = async function get(req, res, next) {
     res.writeHead('200', {'Content-Type': mime.lookup(file)})
     res.end(text)
   } catch(e){
-    console.log(e)
+    console.log('missing', e)
     res.writeHead('404')
     res.end('')
   }
