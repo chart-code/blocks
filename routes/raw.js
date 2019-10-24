@@ -9,6 +9,8 @@ module.exports = async function get(req, res, next) {
 
   try{
     var text = await fetchCache(url, 'text')
+    if (file.includes('.html')) text = text.replace(/http:\/\//g, '//')
+
     res.writeHead('200', {
       'Content-Type': mime.lookup(file),
       'Cache-Control': 'public, max-age=' + 1000*60,
