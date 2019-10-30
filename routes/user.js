@@ -18,6 +18,7 @@ async function dlGists(user, maxPages=11){
 
   return _.flatten(responces)
     .map(({id, description, public}) => ({id, description, public}))
+    .filter(d => d.id)
 }
 
 async function getGists(user){
@@ -42,7 +43,7 @@ async function getGists(user){
   // download & save full list of gists after making request 
   !(async function(){
     var currentGists = await dlGists(user)
-    io.writeData(path, currentGists, d => d)
+    if (currentGists.length > 0) io.writeData(path, currentGists, d => d)
   })()
 
   return gists
@@ -75,8 +76,20 @@ function generateHTML(user, gists){
 module.exports = async function get(req, res, next) {
   var user = req.params.user
   var gists = await getGists(req.params.user)
-  var html = generateHTML(user, gists)
 
+  // redirect if user doesn't exist and there's a gist id with their user name
+  // /397f1b0905400b83fcea4008fb4ccdb1 -> /1wheel/397f1b0905400b83fcea4008fb4ccdb1
+  if (!gists.length){
+    var url = `https://api.github.com/gists/${user}`
+    var gist = await fetchCache(url, 'json')
+
+    if (gist && gist.owner){
+      res.writeHead(301, {Location: `/${gist.owner.login}/${user}`})
+      return res.end('')
+    }
+  }
+
+  var html = generateHTML(user, gists)
   res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(html)
 }
