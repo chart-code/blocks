@@ -24,10 +24,8 @@ function generateHTML(user, id, gist){
     <a href='/${e(user)}'>${e(user)}</a> 
     <a href='http://gist.github.com/${id}'>${id}</a>`
 
-  // console.log(d3.entries(gist.files).map(d => d.key))
-
   var files = d3.entries(gist.files)
-    .filter(d => !d.value.trucated)
+    // .filter(d => !d.value.truncated)
     .filter(d => d.value.size < 20000)
     .filter(d => d.key[0] != '.')
     .filter(d => d.key != 'README.md')
@@ -39,6 +37,10 @@ function generateHTML(user, id, gist){
 
   var iframeURL = `/${user}/raw/${id}/index.html`
   var rootURL = iframeURL.replace('index.html', '')
+
+  // TODO #7: not sure what triggers trucation
+  // could move markdown to front end or add seperate end point
+  // console.log(files.map(d => [d.key, d.value.truncated, d.value.size]))
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
