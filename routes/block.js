@@ -14,7 +14,7 @@ marked.setOptions({
   smartypants: true
 })
 
-function generateHTML(user, id, gist){
+async function generateHTML (user, id, gist){
   if (!gist || !gist.files) return console.log('missing files')
     
   var description = e(gist.description || id.substr(0, 20))
@@ -25,22 +25,23 @@ function generateHTML(user, id, gist){
     <a href='http://gist.github.com/${id}'>${id}</a>`
 
   var files = d3.entries(gist.files)
-    // .filter(d => !d.value.truncated)
     .filter(d => d.value.size < 20000)
     .filter(d => d.key[0] != '.')
     .filter(d => d.key != 'README.md')
     .filter(d => !d.key.includes('.png'))
 
-  files = _.sortBy(files, d => d.key.includes('index.js') || d.key.includes('script.js') ? -1 : 1)
+  files = _.sortBy(files, d => d.key.includes('index.js') || d.key.includes('script.js') ? -2 : d.key.includes('index.html') ? -1 : 1)
 
   if (!gist.files) console.log('ERROR', gist)
 
   var iframeURL = `/${user}/raw/${id}/index.html`
   var rootURL = iframeURL.replace('index.html', '')
 
-  // TODO #7: not sure what triggers trucation
-  // could move markdown to front end or add seperate end point
-  // console.log(files.map(d => [d.key, d.value.truncated, d.value.size]))
+  // README.md is sometimes trucated; load seperately if it is
+  if (gist.files['README.md'] && gist.files['README.md'].truncated){
+    var url =`https://gist.githubusercontent.com/${user}/${id}/raw/README.md`
+    gist.files['README.md'].content = await fetchCache(url, 'text')
+  }
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
@@ -101,8 +102,7 @@ module.exports = async function get(req, res, next) {
   var {user, id} = req.params
   var url = `https://api.github.com/gists/${id}`
   var gist = await fetchCache(url, 'json')
-
-  var html = generateHTML(user, id, gist)
+  var html = await generateHTML(user, id, gist)
 
   res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(html)

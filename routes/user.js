@@ -9,8 +9,9 @@ async function dlGists(user, token='', maxPages=11){
   var responces = []
   var responce = null
   var page = 1
+  var perPage = maxPages == 11 ? 100 : 10
   do {
-    var url = `https://api.github.com/users/${user}/gists?page=${page}&per_page=100`
+    var url = `https://api.github.com/users/${user}/gists?page=${page}&per_page=${perPage}`
     var responce = await fetchCache(url, 'json', token)
     responces.push(responce)
     page++
@@ -32,7 +33,7 @@ async function getGists(user, token){
     maxPages = 11
   }
 
-  // misses gists if someone makes a 100+ gists between caches
+  // misses gists if someone makes a 10+ gists between caches
   var gists = await dlGists(user, token, maxPages)
 
   var isId = {}
