@@ -16,7 +16,7 @@ function generateHTML(){
 
   <p id='people'>${people.map(d => `<a href='/${d}'>${d}</a> `).join('')}
 
-  <p> <a href='https://github.com/chart-code/blocks/blob/master/src/about.js#L2'>Add your username!</a>
+  <p> <a href='https://github.com/chart-code/blocks/blob/master/routes/about.js#L2'>Add your username!</a>
   `
 }
 
