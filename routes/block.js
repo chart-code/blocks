@@ -43,6 +43,29 @@ async function generateHTML (user, id, gist){
     gist.files['README.md'].content = await fetchCache(url, 'text')
   }
 
+  var settings = {
+    height: 500,
+    scrolling: false,
+    border: false,
+  }
+  if (gist.files['.block']){
+    if (gist.files['.block'].truncated){
+      var url =`https://gist.githubusercontent.com/${user}/${id}/raw/.block`
+      gist.files['.block'].content = await fetchCache(url, 'text')
+    }
+
+    gist.files['.block'].content.split('\n')
+      .filter(d => d && d.includes(': '))
+      .forEach(line => {
+        var [key, value] = line.split(': ')
+        settings[key] = value == 'no' ? false : value
+      })
+
+    console.log(settings)
+  }
+
+
+
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -68,7 +91,13 @@ async function generateHTML (user, id, gist){
   ${gist.files['index.html'] ?  
     `
     <a style='float: right; height: 0px; top: -23px; position: relative;'' href=${iframeURL}>Full Screen</a>
-    <iframe width=960 height=500 scrolling='no' src='${iframeURL}'></iframe>`
+    <iframe 
+      style='${settings.border ? 'outline: 1px solid #ccc' : ''}' 
+      width=960 
+      height=${settings.height} 
+      scrolling='${settings.scrolling ? '' : 'no'}' 
+      src='${iframeURL}'>
+    </iframe>`
     : ''
   }
 
