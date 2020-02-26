@@ -46,7 +46,7 @@ async function generateHTML (user, id, gist){
   var settings = {
     height: 500,
     scrolling: false,
-    border: false,
+    border: true,
   }
   if (gist.files['.block']){
     if (gist.files['.block'].truncated){
