@@ -47,6 +47,7 @@ async function generateHTML (user, id, gist){
     height: 500,
     scrolling: false,
     border: true,
+    redirect: '',
   }
   if (gist.files['.block']){
     if (gist.files['.block'].truncated){
@@ -60,11 +61,11 @@ async function generateHTML (user, id, gist){
         var [key, value] = line.split(': ')
         settings[key] = value == 'no' ? false : value
       })
-
-    console.log(settings)
   }
 
-
+  if (settings.redirect){
+    return `<meta http-equiv='Refresh' content='0; url=${settings.redirect}'/>`
+  }
 
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
