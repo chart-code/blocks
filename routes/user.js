@@ -29,6 +29,7 @@ async function getGists(user, token){
   var maxPages = 0
   try {
     cachedGists = io.readDataSync(path)
+    cachedGists.forEach(d => d.public = d.public == 'true')
   } catch (e) {
     maxPages = 11
   }

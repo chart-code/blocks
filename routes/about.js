@@ -10,7 +10,7 @@ function generateHTML(){
   <title>blocks</title>
   <div class='username'>blocks</div>
 
-  <p><a href='github.com'>Open source</a> clone of <a href='https://bl.ocks.org/-/about'>bl.ocks.org</a>. 
+  <p><a href='https://github.com/chart-code/blocks'>Open source</a> clone of <a href='https://bl.ocks.org/-/about'>bl.ocks.org</a>. 
 
   <p>Get started with <a href='https://bost.ocks.org/mike/block/'>Let’s Make a Block</a> and <a href='https://github.com/1wheel/d3-init'>d3-init</a>, or edit in the browser with <a href='https://blockbuilder.org/'>blockbuilder</a>.
 
