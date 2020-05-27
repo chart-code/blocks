@@ -16,6 +16,11 @@ marked.setOptions({
 
 async function generateHTML (user, id, gist){
   if (!gist || !gist.files) return console.log('missing files')
+
+  if (gist.files['readme.md'] && !gist.files['README.md']){
+    gist.files['README.md'] = gist.files['readme.md']
+    delete gist.files['readme.md']
+  }
     
   var description = e(gist.description || id.substr(0, 20))
   var title = `${description} by ${e(user)}`
