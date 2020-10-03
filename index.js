@@ -16,6 +16,10 @@ var DEV = argv.dev
 
 async function init(){
   polka()
+    .use((req, res, next) => {
+      if (req.query.cachebust) fetchCache.bust()
+      next()
+    })
     .get('/static/:file', (req, res) => {
       if (DEV) static = requireUncached('./lib/static')
       static(req, res)
