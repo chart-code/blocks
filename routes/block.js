@@ -17,10 +17,12 @@ marked.setOptions({
 async function generateHTML(user, id, gist, query){
   if (!gist || !gist.files) return console.log('missing files')
 
-  if (gist.files['readme.md'] && !gist.files['README.md']){
-    gist.files['README.md'] = gist.files['readme.md']
-    delete gist.files['readme.md']
-  }
+  d3.keys(gist.files).forEach(key => {
+    if (key.toLowerCase() != 'readme.md' || gist.files['README.md']) return
+
+    gist.files['README.md'] = gist.files[key]
+    delete gist.files[key]
+  })
     
   var description = e(gist.description || id.substr(0, 20))
   var title = `${description} by ${e(user)}`
