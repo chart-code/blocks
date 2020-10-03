@@ -14,7 +14,7 @@ marked.setOptions({
   smartypants: true
 })
 
-async function generateHTML (user, id, gist){
+async function generateHTML(user, id, gist, query){
   if (!gist || !gist.files) return console.log('missing files')
 
   if (gist.files['readme.md'] && !gist.files['README.md']){
@@ -67,6 +67,11 @@ async function generateHTML (user, id, gist){
         settings[key] = value == 'no' ? false : value
       })
   }
+
+  d3.entries(query).forEach(({key, value}) => {
+    if (value == 'no' || value == 'false' || value == '0') value = false
+    settings[key] = value
+  })
 
   if (settings.redirect){
     return `<meta http-equiv='Refresh' content='0; url=${settings.redirect}'/>`
@@ -137,7 +142,7 @@ module.exports = async function get(req, res, next) {
   var {user, id} = req.params
   var url = `https://api.github.com/gists/${id}`
   var gist = await fetchCache(url, 'json')
-  var html = await generateHTML(user, id, gist)
+  var html = await generateHTML(user, id, gist, req.query)
 
   res.writeHead(200, {'Content-Type': 'text/html'})
   res.end(html)
