@@ -114,6 +114,11 @@ async function generateHTML(user, id, gist, query){
     ${gist.files['README.md'] ? marked(gist.files['README.md'].content) : ''}
   </div>
 
+  ${settings.redirect ? 
+    `<h3><a style='background:yellow' href='${settings.redirect}'>Updated Example →</a></h3>`
+    : '' 
+  }
+
   <div id='files'>${files.map(d =>
     `<div>
       <h3>${d.key}</h3>
