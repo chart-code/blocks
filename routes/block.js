@@ -75,10 +75,6 @@ async function generateHTML(user, id, gist, query){
     settings[key] = value
   })
 
-  if (settings.redirect){
-    return `<meta http-equiv='Refresh' content='0; url=${settings.redirect}'/>`
-  }
-
   return `<!DOCTYPE html>
   <meta charset='utf-8'>
   <link rel="icon" href="data:;base64,iVBORw0KGgo=">
