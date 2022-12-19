@@ -13,6 +13,7 @@
     "marked": "^0.7.0",
     "polka": "^0.5.2",
     "r2": "^2.0.1",
+    "minimist": "1",
     "underscore": "^1.9.1"
   },
   "scripts": {
