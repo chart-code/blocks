@@ -20,6 +20,7 @@ async function dlGists(user, token='', maxPages=11){
   return _.flatten(responces)
     .map(({id, description, public}) => ({id, description, public}))
     .filter(d => d.id)
+    .filter((d) => !d.description?.match(/unlisted/i));
 }
 
 async function getGists(user, token){
