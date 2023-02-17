@@ -77,6 +77,7 @@ function generateHTML(){
     'bdilday',
     'bdon',
     'bessiec',
+    'bherr2',
     'bhvaleri',
     'bill-kidwell',
     'biovisualize',
