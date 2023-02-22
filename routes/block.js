@@ -12,7 +12,7 @@ marked.setOptions({
       var obj = lang ? hljs.highlight(lang, code) : hljs.highlightAuto(code)
     } catch(e){
       console.log(e)
-      var obj = hljs.highlightAuto(code0)
+      var obj = hljs.highlightAuto(code)
     }
     return obj.value
   },
