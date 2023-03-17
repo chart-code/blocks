@@ -2,10 +2,9 @@ const fetch = require("node-fetch");
 const fetchCache = require("./../lib/fetch-cache");
 const mime = require("mime-types");
 
-console.log(mime.lookup('asdfasdf'))
-
 module.exports = async function get(req, res, next) {
-  const { user, id, file } = req.params;
+  const { user, id } = req.params;
+  const file = req.params.file || 'index.html';
 
   const url = `https://gist.githubusercontent.com/${user}/${id}/raw/${file}`;
   try {

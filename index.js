@@ -40,9 +40,16 @@ async function init(){
       if (DEV) block = requireUncached('./routes/block')
       block(req, res)
     })
-    .get('/:user/raw/:id/:file', (req, res) => {
-      if (DEV) raw = requireUncached('./routes/raw')
-      raw(req, res)
+    .get('/:user/raw/:id/:file?', (req, res) => {
+      // redirect to add a slash
+      if (!req.file && req.url.at(-1) != '/'){
+        res.statusCode = 302
+        res.setHeader('Location', `${req.url}/`)
+        res.end()
+      } else {
+        if (DEV) raw = requireUncached('./routes/raw')
+        raw(req, res)
+      }
     })
     .listen(PORT, err => {
       if (err) throw err
