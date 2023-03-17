@@ -42,7 +42,7 @@ async function init(){
     })
     .get('/:user/raw/:id/:file?', (req, res) => {
       // redirect to add a slash
-      if (!req.file && req.url.at(-1) != '/'){
+      if (!req.file && req.url.at(-1) != '/' && !req.url.includes('index.html')){
         res.statusCode = 302
         res.setHeader('Location', `${req.url}/`)
         res.end()
