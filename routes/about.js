@@ -120,6 +120,7 @@ function generateHTML(){
     'd3noob',
     'dabos',
     'danharr',
+    'daniarleagk',
     'dannyko',
     'danroberts',
     'dansabo',
