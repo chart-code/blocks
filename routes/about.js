@@ -390,6 +390,7 @@ function generateHTML(){
     'ssdatar',
     'stephanieguo',
     'steveharoz',
+    'stuwilmur',
     'sugi2000',
     'susielu',
     'sxv',
