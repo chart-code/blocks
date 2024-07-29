@@ -145,6 +145,7 @@ function generateHTML(){
     'dribnet',
     'drifkin',
     'drzax',
+    'duhaime',
     'duhoang',
     'dwtkns',
     'ee2dev',
