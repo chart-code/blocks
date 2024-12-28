@@ -408,6 +408,7 @@ function generateHTML(){
     'tmcw',
     'tomgp',
     'tomstove',
+    'tomswisher',
     'tonyhschu',
     'tophtucker',
     'treboresque',
